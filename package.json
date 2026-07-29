@@ -1,0 +1,16 @@
+{
+  "name": "ft-mc-bot",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "dev": "bun --watch src/index.ts"
+  },
+  "dependencies": {
+    "mineflayer": "^4.20.1"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
