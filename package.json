@@ -7,11 +7,12 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "start": "npm run build && node --env-file-if-exists=.env dist/index.js",
-    "start:built": "node --env-file-if-exists=.env dist/index.js",
-    "dev": "tsx watch src/index.ts",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "build": "node node_modules/typescript/bin/tsc -p tsconfig.json",
+    "start": "npm run build && node dist/index.js",
+    "start:built": "node dist/index.js",
+    "start:env": "node --env-file-if-exists=.env dist/index.js",
+    "dev": "node node_modules/tsx/dist/cli.mjs watch src/index.ts",
+    "typecheck": "node node_modules/typescript/bin/tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
     "mineflayer": "^4.20.1"

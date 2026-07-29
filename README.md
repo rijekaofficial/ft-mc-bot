@@ -17,24 +17,39 @@ Stack: **Node.js + TypeScript (ESM)**, зависимость только `mine
 `/an101–/an114`, `/an201–/an228`, `/an301–/an325`, `/an501–/an516`, `/an901–/an904` — 87 штук.
 Bedrock-анархии (`/anXX`, две цифры) не используются.
 
-## Запуск (Node.js 20+, TypeScript)
+## Запуск (Node.js 18+, TypeScript)
 
 ```bash
 npm install
 cp .env.example .env      # при желании поправить
-npm start                 # tsc -> dist, затем node dist/index.js
+npm start                 # компиляция в dist/ + запуск
 ```
 
 Другие скрипты:
 
 ```bash
-npm run dev         # tsx watch, запуск .ts без сборки
 npm run build       # только компиляция в dist/
-npm run start:built # запустить уже собранное
+npm run start:built # запустить уже собранное, без пересборки
+npm run dev         # tsx watch, запуск .ts без сборки
 npm run typecheck   # проверка типов
 ```
 
-`.env` подхватывается флагом `--env-file-if-exists` (Node 20.12+). На более старых Node просто экспортируй переменные окружения сам или используй `npm run start:built` с ENV.
+`.env` читается самим приложением (`src/env.ts`), никаких флагов Node не нужно.
+
+### Termux / Android
+
+В Termux бинарники из `node_modules/.bin` часто падают с `tsc: Permission denied`
+(нет `/usr/bin/env` и exec-бита), поэтому все скрипты вызывают инструменты напрямую
+через `node node_modules/...`. Если что-то всё же не запускается:
+
+```bash
+pkg install nodejs git
+cd ~/ft-mc-bot && npm install
+node node_modules/typescript/bin/tsc -p tsconfig.json
+node dist/index.js
+```
+
+Чтобы бот не умирал при сворачивании Termux: `termux-wake-lock`.
 
 ## Telegram
 
@@ -52,6 +67,7 @@ npm run typecheck   # проверка типов
 ```
 src/
   index.ts      — точка входа, Telegram-хендлеры
+  env.ts        — чтение .env без зависимостей
   worker.ts     — один аккаунт: коннект, реконнект, переход на анку, сбор игроков
   search.ts     — параллельный поиск с общей очередью анархий
   telegram.ts   — Telegram Bot API на long polling, без зависимостей

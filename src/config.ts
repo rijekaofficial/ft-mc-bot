@@ -1,3 +1,7 @@
+import { loadEnv } from './env.js';
+
+loadEnv();
+
 export const CONFIG = {
   host: process.env.MC_HOST ?? 'play.funtime.su',
   port: Number(process.env.MC_PORT ?? 25565),
