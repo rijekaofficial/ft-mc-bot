@@ -39,13 +39,15 @@ npm run typecheck   # проверка типов
 ### Termux / Android
 
 В Termux бинарники из `node_modules/.bin` часто падают с `tsc: Permission denied`
-(нет `/usr/bin/env` и exec-бита), поэтому все скрипты вызывают инструменты напрямую
-через `node node_modules/...`. Если что-то всё же не запускается:
+(нет `/usr/bin/env` и exec-бита), поэтому сборка идёт через `scripts/build.mjs`:
+он сам находит компилятор внутри пакета `typescript` и запускает его как обычный JS-модуль.
+Если что-то всё же не запускается:
 
 ```bash
 pkg install nodejs git
 cd ~/ft-mc-bot && npm install
-node node_modules/typescript/bin/tsc -p tsconfig.json
+npm install --include=dev     # если tsc «не найден»
+node scripts/build.mjs
 node dist/index.js
 ```
 
@@ -68,6 +70,8 @@ node dist/index.js
 src/
   index.ts      — точка входа, Telegram-хендлеры
   env.ts        — чтение .env без зависимостей
+scripts/
+  build.mjs     — запуск tsc без .bin-шимов (Termux-friendly)
   worker.ts     — один аккаунт: коннект, реконнект, переход на анку, сбор игроков
   search.ts     — параллельный поиск с общей очередью анархий
   telegram.ts   — Telegram Bot API на long polling, без зависимостей

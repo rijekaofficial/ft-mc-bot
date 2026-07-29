@@ -7,19 +7,17 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "node node_modules/typescript/bin/tsc -p tsconfig.json",
-    "start": "npm run build && node dist/index.js",
+    "build": "node scripts/build.mjs",
+    "start": "node scripts/build.mjs && node dist/index.js",
     "start:built": "node dist/index.js",
-    "start:env": "node --env-file-if-exists=.env dist/index.js",
-    "dev": "node node_modules/tsx/dist/cli.mjs watch src/index.ts",
-    "typecheck": "node node_modules/typescript/bin/tsc -p tsconfig.json --noEmit"
+    "dev": "node scripts/build.mjs --watch",
+    "typecheck": "node scripts/build.mjs --noEmit"
   },
   "dependencies": {
     "mineflayer": "^4.20.1"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
-    "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   }
 }
