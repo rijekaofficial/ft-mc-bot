@@ -1,7 +1,7 @@
 import mineflayer from 'mineflayer';
-import { CONFIG } from './config';
-import { scoped } from './logger';
-import { sleep, waitFor } from './util';
+import { CONFIG } from './config.js';
+import { scoped } from './logger.js';
+import { sleep, waitFor } from './util.js';
 
 export type WorkerEvents = {
   onStatus?: (w: Worker, status: string) => void;

@@ -1,9 +1,9 @@
-import { ANARCHIES } from './anarchies';
-import { CONFIG } from './config';
-import { scoped } from './logger';
-import { SearchManager } from './search';
-import { Telegram } from './telegram';
-import { Worker } from './worker';
+import { ANARCHIES } from './anarchies.js';
+import { CONFIG } from './config.js';
+import { scoped } from './logger.js';
+import { SearchManager } from './search.js';
+import { Telegram } from './telegram.js';
+import { Worker } from './worker.js';
 
 const log = scoped('main');
 

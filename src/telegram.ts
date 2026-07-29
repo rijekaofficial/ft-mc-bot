@@ -1,4 +1,4 @@
-import { scoped } from './logger';
+import { scoped } from './logger.js';
 
 const log = scoped('tg');
 

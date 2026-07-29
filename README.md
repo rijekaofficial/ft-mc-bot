@@ -2,6 +2,8 @@
 
 Параллельный поиск игрока по анархиям **play.funtime.su** тремя ботами (mineflayer) с управлением из Telegram.
 
+Stack: **Node.js + TypeScript (ESM)**, зависимость только `mineflayer` — Telegram реализован на встроенном `fetch` (long polling).
+
 ## Как работает
 
 1. Три аккаунта (`ir1skaa_ft_1..3`, offline-auth, пиратка) заходят на сервер и **ждут 10 секунд**.
@@ -15,13 +17,24 @@
 `/an101–/an114`, `/an201–/an228`, `/an301–/an325`, `/an501–/an516`, `/an901–/an904` — 87 штук.
 Bedrock-анархии (`/anXX`, две цифры) не используются.
 
-## Запуск (Bun)
+## Запуск (Node.js 20+, TypeScript)
 
 ```bash
-bun install
-cp .env.example .env   # при желании поправить
-bun start
+npm install
+cp .env.example .env      # при желании поправить
+npm start                 # tsc -> dist, затем node dist/index.js
 ```
+
+Другие скрипты:
+
+```bash
+npm run dev         # tsx watch, запуск .ts без сборки
+npm run build       # только компиляция в dist/
+npm run start:built # запустить уже собранное
+npm run typecheck   # проверка типов
+```
+
+`.env` подхватывается флагом `--env-file-if-exists` (Node 20.12+). На более старых Node просто экспортируй переменные окружения сам или используй `npm run start:built` с ENV.
 
 ## Telegram
 

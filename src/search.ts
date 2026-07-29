@@ -1,8 +1,8 @@
-import { ANARCHIES } from './anarchies';
-import { CONFIG } from './config';
-import { scoped } from './logger';
-import { sleep } from './util';
-import type { Worker } from './worker';
+import { ANARCHIES } from './anarchies.js';
+import { CONFIG } from './config.js';
+import { scoped } from './logger.js';
+import { sleep } from './util.js';
+import type { Worker } from './worker.js';
 
 const log = scoped('search');
 
@@ -53,7 +53,8 @@ export class SearchManager {
     this.failed = [];
 
     const queue = [...ANARCHIES];
-    let found: { anarchy: string; by: string } | null = null;
+    type Hit = { anarchy: string; by: string };
+    const hitBox: { value: Hit | null } = { value: null };
 
     const available = this.workers.filter((w) => w.ready);
     if (available.length === 0) {
@@ -67,7 +68,7 @@ export class SearchManager {
     const runWorker = async (w: Worker) => {
       w.busy = true;
       try {
-        while (!found && !this.cancelRequested) {
+        while (!hitBox.value && !this.cancelRequested) {
           const anarchy = queue.shift();
           if (!anarchy) break;
 
@@ -80,7 +81,7 @@ export class SearchManager {
             onProgress?.({ scanned: this.scanned, total: ANARCHIES.length, anarchy, by: w.username });
             const hit = players.find((p) => p.toLowerCase() === target);
             if (hit) {
-              found = { anarchy, by: w.username };
+              hitBox.value = { anarchy, by: w.username };
               log.info(`НАЙДЕН ${hit} на ${anarchy} (бот ${w.username})`);
               break;
             }
@@ -105,8 +106,9 @@ export class SearchManager {
     this.running = false;
     this.currentNick = null;
 
-    if (found) {
-      return { found: true, nick, anarchy: found.anarchy, by: found.by, scanned, ms };
+    const hit = hitBox.value;
+    if (hit) {
+      return { found: true, nick, anarchy: hit.anarchy, by: hit.by, scanned, ms };
     }
     return { found: false, nick, scanned, failed, ms, cancelled };
   }
