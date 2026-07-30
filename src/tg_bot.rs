@@ -99,7 +99,7 @@ pub async fn start_tg_bot(shared: SharedState) {
                                     "⏳ Боты ещё не подключились к серверу. Подождите...",
                                 )
                                 .await;
-                            return Ok(());
+                            return Ok::<(), eyre::Report>(());
                         }
 
                         if shared.is_search_active() {
@@ -109,7 +109,7 @@ pub async fn start_tg_bot(shared: SharedState) {
                                     "⚠️ Поиск уже идёт! Отправьте /stop для остановки.",
                                 )
                                 .await;
-                            return Ok(());
+                            return Ok::<(), eyre::Report>(());
                         }
 
                         let nick = text.to_string();

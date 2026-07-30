@@ -6,6 +6,7 @@ use azalea::swarm::prelude::*;
 
 use crate::config::*;
 use crate::state::SharedState;
+use azalea::{Event, InConfigState};
 
 /// Состояние отдельного бота в swarm
 #[derive(Component, Clone)]
@@ -190,7 +191,7 @@ async fn handle(bot: Client, event: Event, state: BotState) -> eyre::Result<()> 
         Event::Login => {
             println!("[{}] Login event", state.bot_name);
         }
-        Event::Death => {
+        Event::Death(_) => {
             println!("[{}] Death event", state.bot_name);
         }
         _ => {}
@@ -207,7 +208,7 @@ async fn swarm_handle(
 ) -> eyre::Result<()> {
     match &event {
         SwarmEvent::Disconnect(account, _join_opts) => {
-            eprintln!("⚠️ Бот {} отключился!", account.username);
+            eprintln!("⚠️ Бот {} отключился!", account.username());
         }
         SwarmEvent::Chat(chat) => {
             let msg = chat.message().to_string();

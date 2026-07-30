@@ -1,10 +1,10 @@
 [package]
 name = "ft-mc-bot"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [dependencies]
-azalea = "=0.15.1+mc1.21.11"
+azalea = "=0.16.0+mc26.1"
 teloxide = { version = "0.13", features = ["macros"] }
 tokio = { version = "1.49", features = ["full"] }
 parking_lot = "0.12"
