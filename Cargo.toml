@@ -1,0 +1,17 @@
+[package]
+name = "ft-mc-bot"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+azalea = "=0.15.1+mc1.21.11"
+teloxide = { version = "0.13", features = ["macros"] }
+tokio = { version = "1.49", features = ["full"] }
+parking_lot = "0.12"
+eyre = "0.6"
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
